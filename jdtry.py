@@ -233,10 +233,12 @@ class jdtry:
 
         a = getmidstring(str(res.content), "taskId", '}}')
         jsonArr = "{taskId"+a+"}}"
-        temp = getmidstring(str(jsonArr), '"shopInfo"','}')
+        temp = getmidstring(str(jsonArr), '"venderId":',',')
+        # :{"venderId":770031,"title":"\xe7\xbd\x97\xe6\x8a\x80\xe7\x94\xb5\xe7\xab\x9e\xe6\x97\x97\xe8\x88\xb0\xe5\xba\x97","appName":"http://mall.jd.com/index-765880.html","fullLogo":"http://img30.360buyimg.com/popshop/jfs/t1/15498/36/5701/33064/5c414beeE26990c65/02e005151af36260.jpg","shopId":765880
         temp2 = getmidstring(str(jsonArr), '"data"','{')
         temp3 = getmidstring(str(jsonArr), '"submit":',',')
         temp4 = getmidstring(str(jsonArr), '"shopId":', '}')
+
         if temp == None:
             plan.isposted = True
         elif temp2 == None:
@@ -253,15 +255,18 @@ class jdtry:
             return
         else:
             plan.shopid = temp4
+            plan.venderId=temp
             head = self.headers
             head['Host'] = 'try.jd.com'
             head['Referer'] = 'https://try.m.jd.com/'
             for n in range(5):
                 try:
                     url = 'https://try.m.jd.com/followShop?id=' + str(plan.shopid)
+                    print(plan.shopid)
                     # 关注https://try.m.jd.com/followShop?id=10139217
                     res = requests.get(url, cookies=cookie)
                     jsonArr = json.loads(res.content)
+                    print(jsonArr)
                     break
                 except requests.exceptions.RequestException as e:
                     print(e)
@@ -287,9 +292,23 @@ class jdtry:
                 return "申请次数已满"
             for n in range(5):
                 try:
-                    url = 'https://try.m.jd.com/migrate/unfollow?_s=pc&venderId=' + str(plan.shopid)
+                    millis = int(round(time.time() * 1000))
+                    # https://try.jd.com/migrate/unfollow?_s=pc&venderId=770171
+                    # https://wq.jd.com/fav/shop/DelShopFav?shopId=774279&venderId=778235&_=1610947683210&sceneval=2&g_login_type=1&callback=jsonpCBKL&g_ty=ls
+                    url = 'https://wq.jd.com/fav/shop/DelShopFav?shopId='+str(plan.shopid)+'&_='+str(millis)+'&sceneval=2&g_login_type=1&callback=jsonpCBKG&g_ty=ls'
                     # 取关
+                    print(url)
+                    head = {
+                        "Host": "wq.jd.com",
+                        "Accept": "*/*",
+                        "Connection": "keep-alive",
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36',
+                    'Referer': 'https://wqs.jd.com/my/fav/shop_fav.shtml?sceneval=2&jxsid=15960121319555534107&ptag=7155.1.9',
+                    "Accept-Language": "zh-cn",
+                    "Accept-Encoding": "gzip, deflate, br"
+                    }
                     res = requests.get(url, headers=head, cookies=cookie)
+                    print(res.text)
                     break
                 except requests.exceptions.RequestException as e:
                     print(e)
