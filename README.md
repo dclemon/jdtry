@@ -15,4 +15,5 @@ dclemon对任何脚本问题概不负责，包括但不限于由任何脚本错�
 
 您使用或者复制了本仓库且本人制作的任何脚本，则视为已接受此声明，请仔细阅读
 
-群晖docker食用方法：https://hub.docker.com/repository/docker/dclemon/jdtry
+群晖docker食用方法：https://hub.docker.com/r/dclemon/jdtry
+(容器基于python3.7 ubuntu打包，适用x86架构，其他系统和设备请自行测试)
