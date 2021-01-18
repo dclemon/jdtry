@@ -369,7 +369,7 @@ def get_try():
         product = jd.rank(product)
         for n in range(5):
             try:
-                requests.get('https://sc.ftqq.com/方糖密钥.send?text=预计最大申请数量：'+str(len(product)))
+                requests.get('https://sc.ftqq.com/' + ftkey + '.send?text=预计最大申请数量：'+str(len(product)))
                 break
             except requests.exceptions.RequestException as e:
                 print(e)
@@ -378,7 +378,7 @@ def get_try():
             if res == "申请次数已满":
                 return
         #跑完全部任务都没跑满
-        requests.get('https://sc.ftqq.com/方糖密钥.send?text=今日京东未跑满')
+        requests.get('https://sc.ftqq.com/' + ftkey + '.send?text=今日京东未跑满')
         return
 # 737,9987,670,1620,1316,1325,12218,5025,12259
 def run ():
