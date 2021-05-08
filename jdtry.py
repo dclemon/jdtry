@@ -114,7 +114,7 @@ class jdtry:
                 product_list[i].price = getmidstring(str(jsonArr[0]), "'p': '", "'")
             except:
                 print('該商品沒有給出價格，刪去商品！')
-                 product_list[i].price = '0'
+                product_list[i].price = '0'
                 break
         return product_list
     def try_post(self, plan):
