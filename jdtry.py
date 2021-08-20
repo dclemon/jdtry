@@ -270,6 +270,8 @@ class jdtry:
         for temp in product_list:
             try:
                 print("temp.price:",float(temp.price),"ex_price:",ex_price)
+                if float(temp.price) > float(ex_price):
+                    plan.append(temp)
             except:
                 continue
         for temp in plan:
