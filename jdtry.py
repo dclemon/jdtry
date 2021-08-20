@@ -268,8 +268,10 @@ class jdtry:
         ex_price = read_ini('appbase', 'ex_price','info.ini')
         plan = []
         for temp in product_list:
-            if float(temp.price) > float(ex_price):
-                plan.append(temp)
+        try:
+            print("temp.price:",float(temp.price),"ex_price:",ex_price)
+        except:
+            continue
         for temp in plan:
             for key_word in key_word_list:
                 if temp.name.find(key_word) != -1:  # 有过滤词
